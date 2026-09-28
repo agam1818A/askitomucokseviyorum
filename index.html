@@ -1567,8 +1567,8 @@
 
     <div class="countdown-box">
 
-      <h3>
-        Aşkitommm 5. ayımıza
+      <h3 id="countdownTitle">
+        Aşkitommm 6. ayımıza
         bu kadar kaldııı ❤️
       </h3>
 
@@ -1576,8 +1576,8 @@
         Hesaplanıyor...
       </div>
 
-      <p class="start-date">
-        21.04.2026 ❤️ 21.09.2026
+      <p class="start-date" id="countdownDate">
+        21.04.2026 ❤️ 21.10.2026
       </p>
 
     </div>
@@ -2362,111 +2362,69 @@
 
 
     /* ==========================
-       5. AY GERİ SAYIM
-       21 EYLÜL 2026
-    ========================== */
+        AY DÖNÜMÜ GERİ SAYIM
+        6. AYDAN 1. YILA KADAR OTOMATİK
+     ========================== */
 
-    const anniversaryDate =
-      new Date(
-        "2026-09-21T00:00:00"
-      );
-
+    const anniversaries = [
+      { month: 6,  date: new Date(2026, 9, 21, 0, 0, 0), label: "21.10.2026" },
+      { month: 7,  date: new Date(2026, 10, 21, 0, 0, 0), label: "21.11.2026" },
+      { month: 8,  date: new Date(2026, 11, 21, 0, 0, 0), label: "21.12.2026" },
+      { month: 9,  date: new Date(2027, 0, 21, 0, 0, 0), label: "21.01.2027" },
+      { month: 10, date: new Date(2027, 1, 21, 0, 0, 0), label: "21.02.2027" },
+      { month: 11, date: new Date(2027, 2, 21, 0, 0, 0), label: "21.03.2027" },
+      { month: 12, date: new Date(2027, 3, 21, 0, 0, 0), label: "21.04.2027" }
+    ];
 
     function updateCountdown() {
+      const now = new Date();
+      const countdown = document.getElementById("countdown");
+      const countdownTitle = document.getElementById("countdownTitle");
+      const countdownDate = document.getElementById("countdownDate");
 
-      const now =
-        new Date();
+      let nextAnniversary = null;
 
-      const difference =
-        anniversaryDate - now;
-
-
-      if (
-        difference <= 0
-      ) {
-
-        document
-          .getElementById(
-            "countdown"
-          )
-          .innerHTML =
-
-          "5. AYIMIZ KUTLU OLSUN AŞKİTOMMM ❤️";
-
-        return;
-
+      for (let i = 0; i < anniversaries.length; i++) {
+        if (now < anniversaries[i].date) {
+          nextAnniversary = anniversaries[i];
+          break;
+        }
       }
 
+      if (!nextAnniversary) {
+        countdownTitle.innerHTML = "Aşkitommm 1 senemiz oldu ❤️";
+        countdown.innerHTML = "1 SENEMİZ KUTLU OLSUN AŞKİTOMMM ❤️";
+        countdownDate.innerHTML = "21.04.2026 ❤️ 21.04.2027";
+        return;
+      }
 
-      const days =
-        Math.floor(
-          difference /
-          (
-            1000 *
-            60 *
-            60 *
-            24
-          )
-        );
+      if (nextAnniversary.month === 12) {
+        countdownTitle.innerHTML =
+          "Aşkitommm 1. senemize<br>bu kadar kaldııı ❤️";
+      } else {
+        countdownTitle.innerHTML =
+          "Aşkitommm " + nextAnniversary.month +
+          ". ayımıza<br>bu kadar kaldııı ❤️";
+      }
 
+      countdownDate.innerHTML =
+        "21.04.2026 ❤️ " + nextAnniversary.label;
 
-      const hours =
-        Math.floor(
-          (
-            difference /
-            (
-              1000 *
-              60 *
-              60
-            )
-          ) % 24
-        );
+      const difference = nextAnniversary.date - now;
 
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
 
-      const minutes =
-        Math.floor(
-          (
-            difference /
-            (
-              1000 *
-              60
-            )
-          ) % 60
-        );
-
-
-      const seconds =
-        Math.floor(
-          (
-            difference /
-            1000
-          ) % 60
-        );
-
-
-      document
-        .getElementById(
-          "countdown"
-        )
-        .innerHTML =
-
-        days +
-        " Gün&nbsp;•&nbsp;" +
-
-        hours +
-        " Saat&nbsp;•&nbsp;" +
-
-        minutes +
-        " Dakika&nbsp;•&nbsp;" +
-
-        seconds +
-        " Saniye ❤️";
-
+      countdown.innerHTML =
+        days + " Gün&nbsp;•&nbsp;" +
+        hours + " Saat&nbsp;•&nbsp;" +
+        minutes + " Dakika&nbsp;•&nbsp;" +
+        seconds + " Saniye ❤️";
     }
 
-
     updateCountdown();
-
 
     setInterval(
       updateCountdown,
